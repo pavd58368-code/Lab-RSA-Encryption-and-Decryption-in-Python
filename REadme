@@ -1,0 +1,48 @@
+Lab: RSA Encryption and Decryption in Python
+Objective
+
+Develop a program that performs encryption and decryption of messages using the RSA algorithm.
+The keys are generated based on prime numbers p and q taken from the assignment table.
+The value e is chosen as the smallest possible integer satisfying the RSA conditions.
+
+Input Data
+
+Programming language: Python
+
+Input values:
+
+Two prime numbers p and q
+
+Message in the variable message (to encrypt)
+
+Encrypted message in the variable encryption (to decrypt)
+
+Algorithm Description
+
+Initialize the program with values of p, q, and the text message.
+
+Compute the required parameters:
+
+n = p * q
+
+Euler’s function φ(n) = (p-1)*(q-1)
+
+Public key exponent e (minimum possible value coprime with φ(n))
+
+Private key exponent d using Extended Euclidean Algorithm.
+
+Convert message characters into ASCII codes.
+
+Encryption: raise each ASCII code to the power of e modulo n.
+
+Decryption: raise encrypted numbers to the power of d modulo n and convert back to characters.
+
+Analysis of Results
+
+The RSA implementation correctly encrypts and decrypts text messages.
+
+Encryption is performed by raising ASCII values to the power e (mod n).
+
+Decryption is achieved using the private key d.
+
+The algorithm demonstrates the principles of asymmetric encryption.
