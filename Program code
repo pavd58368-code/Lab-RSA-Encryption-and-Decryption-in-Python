@@ -1,0 +1,61 @@
+import math
+
+class Rsa:
+
+    def __init__(self, num_p, num_q, message):
+        self.num_p = num_p
+        self.num_q = num_q
+        self.message = message
+
+    def get_number_n(self):
+        return self.num_p * self.num_q
+
+    def get_number_f(self):
+        return (self.num_p - 1) * (self.num_q - 1)
+
+    def get_number_e(self):
+        min_e = 2
+        while math.gcd(min_e, self.get_number_f()) != 1:
+            min_e += 1
+        return min_e
+
+    def extended_gcd(self, a, b):
+        if b == 0:
+            return a, 1, 0
+        g, x1, y1 = self.extended_gcd(b, a % b)
+        x = y1
+        y = x1 - (a // b) * y1
+        return g, x, y
+
+    def get_number_d(self):
+        g, x, y = self.extended_gcd(self.get_number_e(), self.get_number_f())
+        return x % self.get_number_f()
+
+    def get_ASCII(self):
+        return [ord(ch) for ch in self.message]
+
+    def encrypt_nums(self):
+        return [pow(num, self.get_number_e(), self.get_number_n()) for num in self.get_ASCII()]
+
+    def decrypt_nums(self, message):
+        self.message = message
+        return [pow(num, self.get_number_d(), self.get_number_n()) for num in self.message]
+
+    def encrypt(self):
+        print(f'Сообщение "{self.message}" encrypt')
+        return self.encrypt_nums()
+
+    def decrypt(self, numbers):
+        print(f'Сообщение "{numbers}" decrypt')
+        decrypted = [chr(i) for i in self.decrypt_nums(numbers)]
+        return ''.join(decrypted)
+
+message = 'How are you?'
+encryption = [34849, 44415, 13861, 34964, 22330, 16903, 28243, 44415, 1400]
+number_p = 193
+number_q = 353
+
+rsa = Rsa(number_p, number_q, message)
+
+print(rsa.encrypt())          # → enctypted message
+print(rsa.decrypt(encryption))  # → decrypted message
